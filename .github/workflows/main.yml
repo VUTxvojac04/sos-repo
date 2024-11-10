@@ -36,7 +36,7 @@ jobs:
       - name: Create arch repo
         run: |
           sudo apt-get update
-          sudo apt-get install pacman-package-manager archlinux-keyring -y
+          sudo apt-get install pacman-package-manager archlinux-keyring libarchive-tools -y
           mkdir -p sapps/repo/x86_64
           pushd .
           cp **.pkg.tar.zst sapps/repo/x86_64
