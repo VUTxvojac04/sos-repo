@@ -51,6 +51,14 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: sapps/
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |-
+            ${{ steps.makepkg.outputs.pkgfile0 }}
+            ${{ steps.makepkg.outputs.pkgfile1 }}
+            ${{ steps.makepkg.outputs.pkgfile2 }}
+          
   deploy:
     needs: build
     permissions:
