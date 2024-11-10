@@ -1,0 +1,21 @@
+pkgbase = python-sweb
+	pkgdesc = Python sweb module
+	pkgver = 0.2.1
+	pkgrel = 1
+	url = https://github.com/forsenior/senior-os
+	arch = any
+	license = MIT
+	makedepends = python-poetry
+	depends = python
+	depends = python-sconf
+	depends = python-pyqt5
+	depends = python-dataclass-wizard
+	depends = python-validate-email
+	depends = python-pillow
+	depends = python-pyqt5-webengine
+	depends = python-screeninfo
+	depends = python-requests
+	source = git+https://github.com/forsenior/senior-os.git
+	sha256sums = SKIP
+
+pkgname = python-sweb

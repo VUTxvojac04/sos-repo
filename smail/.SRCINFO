@@ -1,0 +1,19 @@
+pkgbase = python-smail
+	pkgdesc = Python smail module
+	pkgver = 0.2.1
+	pkgrel = 1
+	url = https://github.com/forsenior/senior-os
+	arch = any
+	license = MIT
+	makedepends = python-poetry
+	depends = python
+	depends = python-pyqt5
+	depends = python-dataclass-wizard
+	depends = python-pillow
+	depends = python-screeninfo
+	depends = python-chardet
+	depends = python-sconf
+	source = git+https://github.com/forsenior/senior-os.git
+	sha256sums = SKIP
+
+pkgname = python-smail
