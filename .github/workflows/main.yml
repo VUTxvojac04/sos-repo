@@ -20,6 +20,8 @@ jobs:
           path: .
   build:
     name: Build
+    permissions: 
+      contents: write
     runs-on: ubuntu-24.04
     needs: aur_deps
     steps:
