@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout files
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         
       - name: Configure GPG key
         run:
@@ -29,6 +29,6 @@ jobs:
           echo "Successfully created the following package archive"
           echo "Package: ${{ steps.makepkg.outputs.pkgfile0 }}"
       - name: Upload sconf artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           path: ${{ steps.makepkg.outputs.pkgfile0 }}
