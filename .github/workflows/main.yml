@@ -1,3 +1,10 @@
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log Level'
+        required: true
+        default: 'warning'
 jobs:
   build:
     runs-on: mijailr/makepkg:1.0.1
@@ -27,5 +34,3 @@ jobs:
           echo "Package created:"
           echo `ls *.pkg.tar.zst`
           echo "==============="
-        
-on: label
