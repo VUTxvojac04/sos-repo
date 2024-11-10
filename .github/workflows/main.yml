@@ -19,7 +19,7 @@ jobs:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
           
       - name: Makepkg Build and Check sconf
-        id: makepkg-sconf
+        id: makepkg
         uses: edlanglois/pkgbuild-action@v1
         with:
           aurDeps: true
