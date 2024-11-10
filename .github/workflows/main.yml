@@ -1,5 +1,6 @@
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   aur_deps:
@@ -73,13 +74,15 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: sapps/
-      #- name: Release
-      # uses: softprops/action-gh-release@v2
-      #  with:
-      #   files: |-
-      #      ${{ steps.makepkg.outputs.pkgfile0 }}
-      #      ${{ steps.makepkg.outputs.pkgfile1 }}
-      #      ${{ steps.makepkg.outputs.pkgfile2 }}
+      - name: Release SeniorOS
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Development Build"
+          files: |
+            *.pkg.tar.zst
           
   deploy:
     needs: build
