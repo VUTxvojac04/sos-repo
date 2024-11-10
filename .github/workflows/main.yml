@@ -1,0 +1,31 @@
+jobs:
+  build:
+    runs-on: mijailr/makepkg:1.0.1
+    steps:
+      - name: Checkout files
+        uses: actions/checkout@v1
+        
+      - name: Configure GPG key
+        run:
+          echo -n "$GPG_SIGNING_KEY" | base64 --decode | gpg --import
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+          
+      - name: Build sconf package
+        working-directory: sconf
+        run: |-
+          if [ -d "/github" ]; then
+          sudo chown -R build /github/workspace /github/home
+          fi
+
+          sudo pacman -Sy
+          export MAKEFLAGS=-j$(nproc)
+          namcap PKGBUILD
+          makepkg -fC --syncdeps --noconfirm
+
+          echo "==============="
+          echo "Package created:"
+          echo `ls *.pkg.tar.zst`
+          echo "==============="
+        
+on: label
