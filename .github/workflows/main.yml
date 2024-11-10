@@ -20,25 +20,20 @@ jobs:
           
       - name: Makepkg Build and Check sconf
         id: makepkg-sconf
-        uses: samarthj/arch-pkgbuild-action@v2
+        uses: edlanglois/pkgbuild-action@v1
         with:
-          aur_username: ""
-          aur_email: ""
-          aur_ssh_private_key: ""
-          setup_aur: false
-          is_python_pkg: true
-          dry_run: false
+          aurDeps: true
       - name: Print package files
         run: |
           echo "Successfully created the following package archives"
-          echo "Package: ${{ steps.makepkg.outputs.pkg0 }}"
-          echo "Package: ${{ steps.makepkg.outputs.pkg1 }}"
-          echo "Package: ${{ steps.makepkg.outputs.pkg2 }}"
+          echo "Package: ${{ steps.makepkg.outputs.pkgfile0 }}"
+          echo "Package: ${{ steps.makepkg.outputs.pkgfile1 }}"
+          echo "Package: ${{ steps.makepkg.outputs.pkgfile2 }}"
       - name: Upload sconf artifact
         uses: actions/upload-artifact@v4
         with:
           name: senior-apps
           path: |-
-            ${{ steps.makepkg.outputs.pkg0 }}
-            ${{ steps.makepkg.outputs.pkg1 }}
-            ${{ steps.makepkg.outputs.pkg2 }}
+            ${{ steps.makepkg.outputs.pkgfile0 }}
+            ${{ steps.makepkg.outputs.pkgfile1 }}
+            ${{ steps.makepkg.outputs.pkgfile2 }}
