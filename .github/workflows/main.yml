@@ -7,10 +7,10 @@ on:
         default: 'warning'
 jobs:
   build:
-    runs-on: mijailr/makepkg:1.0.1
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout files
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
         
       - name: Configure GPG key
         run:
@@ -18,19 +18,17 @@ jobs:
         env:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
           
-      - name: Build sconf package
-        working-directory: sconf
-        run: |-
-          if [ -d "/github" ]; then
-          sudo chown -R build /github/workspace /github/home
-          fi
-
-          sudo pacman -Sy
-          export MAKEFLAGS=-j$(nproc)
-          namcap PKGBUILD
-          makepkg -fC --syncdeps --noconfirm
-
-          echo "==============="
-          echo "Package created:"
-          echo `ls *.pkg.tar.zst`
-          echo "==============="
+      - name: Makepkg Build and Check sconf
+        id: makepkg
+        uses: edlanglois/pkgbuild-action@v1
+        with:
+          pkgdir: sconf
+          aurDeps: true
+      - name: Print package files
+        run: |
+          echo "Successfully created the following package archive"
+          echo "Package: ${{ steps.makepkg.outputs.pkgfile0 }}"
+      - name: Upload sconf artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ steps.makepkg.outputs.pkgfile0 }}
