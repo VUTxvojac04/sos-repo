@@ -1,0 +1,16 @@
+pkgbase = python-sconf
+	pkgdesc = Python sconf module
+	pkgver = 0.2.0
+	pkgrel = 1
+	url = https://github.com/forsenior/senior-os
+	arch = any
+	license = MIT
+	makedepends = python-poetry
+	depends = python
+	depends = python-pyqt5
+	depends = python-dataclass-wizard
+	depends = python-validate-email
+	source = git+https://github.com/forsenior/senior-os.git#branch=221584
+	sha256sums = SKIP
+
+pkgname = python-sconf
