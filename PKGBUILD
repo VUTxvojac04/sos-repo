@@ -1,3 +1,4 @@
+pkgbase=python-sapps
 pkgname=(python-sconf python-sweb python-smail)
 pkgver=0.2.0
 pkgrel=1
