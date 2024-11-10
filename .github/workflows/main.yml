@@ -2,8 +2,25 @@ on:
   workflow_dispatch:
 
 jobs:
+  aur_deps:
+    name: Build aur dependencies
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Build Packages
+        uses: kopp/build-aur-packages@v1
+        with:
+          packages: |-
+            python-dataclass-wizard
+            python-screeninfo
+      - name: Upload dependencies artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: senior-apps-deps
+          path: .
   build:
+    name: Build
     runs-on: ubuntu-24.04
+    needs: aur_deps
     steps:
       - name: Checkout files
         uses: actions/checkout@v4
@@ -33,17 +50,22 @@ jobs:
             ${{ steps.makepkg.outputs.pkgfile0 }}
             ${{ steps.makepkg.outputs.pkgfile1 }}
             ${{ steps.makepkg.outputs.pkgfile2 }}
+      - name: Download dependencies
+        uses: actions/download-artifact@v4
+        with:
+          name: senior-apps-deps
       - name: Create arch repo
-        run: |
+        run: |-
+          ls -lash
           sudo apt-get update
           sudo apt-get install pacman-package-manager archlinux-keyring libarchive-tools -y
           mkdir -p sapps/repo/x86_64
           pushd .
           cp **.pkg.tar.zst sapps/repo/x86_64
           cd sapps/repo/x86_64
-          gpg --output ${{ steps.makepkg.outputs.pkgfile0 }}.sig --detach-sign ${{ steps.makepkg.outputs.pkgfile0 }}
-          gpg --output ${{ steps.makepkg.outputs.pkgfile1 }}.sig --detach-sign ${{ steps.makepkg.outputs.pkgfile1 }}
-          gpg --output ${{ steps.makepkg.outputs.pkgfile2 }}.sig --detach-sign ${{ steps.makepkg.outputs.pkgfile2 }}
+          for pkg in *.pkg.tar.zst; do
+            gpg --output $pkg.sig --detach-sign $pkg
+          done
           ls -lash
           repo-add --verify --sign --key A4B4A964B444DF8C71E717BEFF7208640955A234 sapps.db.tar.gz *.pkg.tar.zst
           popd
